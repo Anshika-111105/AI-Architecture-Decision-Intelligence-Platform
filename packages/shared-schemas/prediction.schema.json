@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ADIP_Prediction_Output_Schema",
+  "description": "Dataset D & ML Inference: Formal schema for ML predictions, percentiles, and SHAP explainability outputs",
+  "type": "object",
+  "required": [
+    "architecture_id",
+    "predictions",
+    "sla_compliance",
+    "explainability"
+  ],
+  "properties": {
+    "architecture_id": {
+      "type": "string"
+    },
+    "predictions": {
+      "type": "object",
+      "required": ["latency", "throughput", "resources", "cost"],
+      "properties": {
+        "latency": {
+          "type": "object",
+          "required": ["p50_ms", "p90_ms", "p95_ms", "p99_ms"],
+          "properties": {
+            "p50_ms": { "type": "number", "minimum": 0 },
+            "p90_ms": { "type": "number", "minimum": 0 },
+            "p95_ms": { "type": "number", "minimum": 0 },
+            "p99_ms": { "type": "number", "minimum": 0 }
+          }
+        },
+        "throughput": {
+          "type": "object",
+          "required": ["predicted_rps"],
+          "properties": {
+            "predicted_rps": { "type": "number", "minimum": 0 }
+          }
+        },
+        "resources": {
+          "type": "object",
+          "required": ["cpu_utilization_pct", "memory_utilization_mb"],
+          "properties": {
+            "cpu_utilization_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "memory_utilization_mb": { "type": "number", "minimum": 0 }
+          }
+        },
+        "cost": {
+          "type": "object",
+          "required": ["estimated_monthly_usd"],
+          "properties": {
+            "estimated_monthly_usd": { "type": "number", "minimum": 0 }
+          }
+        },
+        "reliability": {
+          "type": "object",
+          "properties": {
+            "estimated_error_rate_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "availability_score": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        }
+      }
+    },
+    "sla_compliance": {
+      "type": "object",
+      "required": ["meets_latency_sla", "meets_budget_sla"],
+      "properties": {
+        "meets_latency_sla": { "type": "boolean" },
+        "meets_budget_sla": { "type": "boolean" },
+        "latency_margin_ms": { "type": "number" },
+        "budget_margin_usd": { "type": "number" }
+      }
+    },
+    "explainability": {
+      "type": "object",
+      "required": ["top_contributing_features", "summary"],
+      "properties": {
+        "top_contributing_features": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["feature", "shap_value", "impact"],
+            "properties": {
+              "feature": { "type": "string" },
+              "shap_value": { "type": "number" },
+              "impact": { "type": "string", "enum": ["increases_latency", "decreases_latency", "increases_cost", "decreases_cost"] }
+            }
+          }
+        },
+        "summary": { "type": "string" }
+      }
+    }
+  }
+}

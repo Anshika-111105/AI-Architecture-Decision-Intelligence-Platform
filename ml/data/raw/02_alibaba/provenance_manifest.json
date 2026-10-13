@@ -1,0 +1,16 @@
+{
+  "source_id": "src_02_alibaba",
+  "source_name": "Alibaba Microservices Cluster Trace (v2021)",
+  "evidence_type": "Type_A_Production_Trace",
+  "is_real": true,
+  "is_benchmark": false,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://github.com/alibaba/clusterdata/tree/master/cluster-trace-microservices-v2021",
+  "license": "Research / Non-Commercial Use",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:57.983782+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}
