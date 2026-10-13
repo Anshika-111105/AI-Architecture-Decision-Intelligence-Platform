@@ -204,6 +204,11 @@ datasets:
         type: "float"
         unit: "milliseconds"
         range: [0.01, 1000.0]
+      scalability:
+        type: "float"
+        unit: "headroom_multiplier"
+        description: "Max sustained throughput scale factor before SLA violation"
+        range: [0.1, 100.0]
 
   # Dataset E — Infrastructure Cost
   # Monetary cost associated with running the architecture configuration.

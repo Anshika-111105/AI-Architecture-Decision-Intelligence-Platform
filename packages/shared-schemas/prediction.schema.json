@@ -55,6 +55,13 @@
             "estimated_error_rate_pct": { "type": "number", "minimum": 0, "maximum": 100 },
             "availability_score": { "type": "number", "minimum": 0, "maximum": 100 }
           }
+        },
+        "scalability": {
+          "type": "object",
+          "properties": {
+            "max_supported_rps": { "type": "number", "minimum": 0 },
+            "scalability_headroom_multiplier": { "type": "number", "minimum": 0 }
+          }
         }
       }
     },
