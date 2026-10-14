@@ -1,0 +1,16 @@
+{
+  "source_id": "src_05_software_architecture",
+  "source_name": "Software-Architecture Q&A / Knowledge Dataset",
+  "evidence_type": "Type_D_Knowledge_Text",
+  "is_real": true,
+  "is_benchmark": false,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://huggingface.co/datasets/ajibawa-2023/Software-Architecture",
+  "license": "Apache-2.0",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:58.002711+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

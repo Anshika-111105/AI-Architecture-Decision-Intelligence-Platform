@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ADIP_Requirements_Schema",
+  "description": "Dataset A: Formal schema for system requirements and operational constraints",
+  "type": "object",
+  "required": [
+    "project_id",
+    "domain",
+    "users",
+    "concurrency",
+    "rps",
+    "peak_rps",
+    "data_size",
+    "read_write_ratio",
+    "latency_sla",
+    "availability_sla",
+    "budget"
+  ],
+  "properties": {
+    "project_id": {
+      "type": "string",
+      "description": "Unique identifier for the project"
+    },
+    "domain": {
+      "type": "string",
+      "enum": ["e-commerce", "fintech", "social_network", "streaming", "iot", "healthcare", "saas"]
+    },
+    "users": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "concurrency": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "rps": {
+      "type": "number",
+      "minimum": 0.1
+    },
+    "peak_rps": {
+      "type": "number",
+      "minimum": 0.1
+    },
+    "data_size": {
+      "type": "number",
+      "description": "Data volume in Gigabytes (GB)",
+      "minimum": 0.01
+    },
+    "read_write_ratio": {
+      "type": "number",
+      "description": "Ratio of read traffic to total traffic between 0.0 and 1.0",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "latency_sla": {
+      "type": "number",
+      "description": "Maximum permissible latency in milliseconds",
+      "minimum": 1.0
+    },
+    "availability_sla": {
+      "type": "number",
+      "description": "Required uptime percentage (e.g., 99.9)",
+      "minimum": 90.0,
+      "maximum": 100.0
+    },
+    "budget": {
+      "type": "number",
+      "description": "Monthly infrastructure budget in USD",
+      "minimum": 10.0
+    },
+    "traffic_growth": {
+      "type": "number",
+      "description": "Projected annual growth percentage",
+      "default": 20.0
+    },
+    "team_size": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 5
+    }
+  }
+}
