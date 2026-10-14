@@ -228,14 +228,14 @@ Raw datasets must never be dumped into one blended CSV:
 
 ### B. Group-Based Splitting (Preventing Train/Test Leakage)
 - **Problem with naive splitting:** If tests from the *same* architecture exist in both Train and Test sets, the model simply memorizes that architecture.
-- **ADIP Solution ([ml/src/data/split.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/data/split.py)):**  
+- **ADIP Solution ([ml/src/data/split.py](ml/src/data/split.py)):**  
   Uses `GroupShuffleSplit` on `architecture_id`:
   - **70% of Architectures:** Training Set.
   - **15% of Architectures:** Validation Set (Hyperparameter tuning).
   - **15% of Architectures:** Test Set (Completely unseen architectures).
   This guarantees that models are tested on their ability to **generalize to brand new architecture designs**.
 
-### C. Validation & Sanity Guardrails ([ml/src/data/validate.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/data/validate.py))
+### C. Validation & Sanity Guardrails ([ml/src/data/validate.py](ml/src/data/validate.py))
 - Non-negative latency check: All latency metrics must satisfy $p > 0$ ms.
 - Percentage bound check: CPU, availability, and error rates must be strictly within $[0.0, 100.0]\%$.
 - Leakage check: Ensures target outputs (e.g., $p_{99}$ latency or cost) never appear in the input feature matrix $X$.
@@ -246,12 +246,12 @@ Raw datasets must never be dumped into one blended CSV:
 
 | Deliverable | File Path | Status |
 |---|---|---|
-| Data Source Registry | [ml/configs/data.yaml](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/configs/data.yaml) | Verified & Configured |
-| 5-Dataset & Feature Specifications | [ml/configs/features.yaml](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/configs/features.yaml) | Verified & Configured |
-| Ingestion & Manifest Pipeline | [ml/src/data/ingest.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/data/ingest.py) | Tested & Passing |
-| Validation & Quality Audit Module | [ml/src/data/validate.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/data/validate.py) | Tested & Passing |
-| Group Architecture Splitting Module | [ml/src/data/split.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/data/split.py) | Tested & Passing |
-| Feature Registry Contract | [ml/src/features/feature_registry.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/features/feature_registry.py) | Verified |
-| NetworkX Graph Feature Builder | [ml/src/features/build_features.py](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/src/features/build_features.py) | Tested & Passing |
-| Shared Schema Contracts | [packages/shared-schemas/](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/packages/shared-schemas/) | Formal Schemas Created |
-| Dataset & Feature Engineering Guide | [ml/reports/phase3_dataset_and_feature_guide.md](file:///c:/Users/hp/OneDrive/Desktop/Code/ADIP_Major_Project/ml/reports/phase3_dataset_and_feature_guide.md) | Documented |
+| Data Source Registry | [ml/configs/data.yaml](ml/configs/data.yaml) | Verified & Configured |
+| 5-Dataset & Feature Specifications | [ml/configs/features.yaml](ml/configs/features.yaml) | Verified & Configured |
+| Ingestion & Manifest Pipeline | [ml/src/data/ingest.py](ml/src/data/ingest.py) | Tested & Passing |
+| Validation & Quality Audit Module | [ml/src/data/validate.py](ml/src/data/validate.py) | Tested & Passing |
+| Group Architecture Splitting Module | [ml/src/data/split.py](ml/src/data/split.py) | Tested & Passing |
+| Feature Registry Contract | [ml/src/features/feature_registry.py](ml/src/features/feature_registry.py) | Verified |
+| NetworkX Graph Feature Builder | [ml/src/features/build_features.py](ml/src/features/build_features.py) | Tested & Passing |
+| Shared Schema Contracts | [packages/shared-schemas/](packages/shared-schemas/) | Formal Schemas Created |
+| Dataset & Feature Engineering Guide | [ml/reports/phase3_dataset_and_feature_guide.md](ml/reports/phase3_dataset_and_feature_guide.md) | Documented |
