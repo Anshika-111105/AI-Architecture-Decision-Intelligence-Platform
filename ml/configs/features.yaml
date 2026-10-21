@@ -1,0 +1,310 @@
+version: "1.0"
+project: "ADIP"
+phase: "Phase 3 - Dataset Schema Design & Feature Engineering"
+author: "Anshika"
+# 1. Five Linked Datasets Specification
+datasets:
+  # Dataset A — Requirements
+  # Represents project-level constraints and high-level engineering targets.
+  dataset_a_requirements:
+    primary_key: "project_id"
+    fields:
+      project_id:
+        type: "string"
+        description: "Unique project identifier"
+      domain:
+        type: "categorical"
+        allowed: ["e-commerce", "fintech", "social_network", "streaming", "iot", "healthcare", "saas"]
+      users:
+        type: "integer"
+        unit: "registered_users"
+        range: [100, 100000000]
+      concurrency:
+        type: "integer"
+        unit: "concurrent_sessions"
+        range: [10, 500000]
+      rps:
+        type: "float"
+        unit: "requests_per_second"
+        range: [1.0, 200000.0]
+      peak_rps:
+        type: "float"
+        unit: "requests_per_second"
+        range: [1.0, 500000.0]
+      data_size:
+        type: "float"
+        unit: "gigabytes"
+        range: [0.1, 100000.0]
+      read_write_ratio:
+        type: "float"
+        description: "Ratio of read operations over total (e.g. 0.8 for 80/20)"
+        range: [0.0, 1.0]
+      latency_sla:
+        type: "float"
+        unit: "milliseconds"
+        range: [10.0, 5000.0]
+      availability_sla:
+        type: "float"
+        unit: "percentage"
+        range: [95.0, 99.999]
+      budget:
+        type: "float"
+        unit: "usd_per_month"
+        range: [50.0, 500000.0]
+      traffic_growth:
+        type: "float"
+        unit: "annual_percentage"
+        range: [0.0, 500.0]
+      team_size:
+        type: "integer"
+        range: [1, 200]
+
+  # Dataset B — Architecture Configuration
+  # Captures structural choices, topology features, and component choices.
+  dataset_b_architecture:
+    primary_key: "architecture_id"
+    fields:
+      architecture_id:
+        type: "string"
+        description: "Unique candidate architecture identifier"
+      architecture_pattern:
+        type: "categorical"
+        allowed: ["monolith", "modular_monolith", "microservices", "event_driven", "serverless"]
+      architecture_style:
+        type: "categorical"
+        allowed: ["layered", "hexagonal", "cqrs", "event_sourcing", "pipeline", "service_oriented"]
+      service_count:
+        type: "integer"
+        range: [1, 100]
+      database:
+        type: "categorical"
+        allowed: ["postgres", "mysql", "mongodb", "dynamodb", "cassandra", "redis_only", "none"]
+      cache:
+        type: "categorical"
+        allowed: ["none", "redis", "memcached", "hazelcast"]
+      messaging:
+        type: "categorical"
+        allowed: ["none", "kafka", "rabbitmq", "aws_sqs", "nats"]
+      api_style:
+        type: "categorical"
+        allowed: ["rest", "graphql", "grpc", "websocket"]
+      deployment:
+        type: "categorical"
+        allowed: ["docker_compose", "kubernetes", "aws_ecs", "aws_lambda", "bare_metal_vm"]
+      cloud:
+        type: "categorical"
+        allowed: ["aws", "gcp", "azure", "on_premise"]
+      replica_count:
+        type: "integer"
+        range: [1, 64]
+      cpu_limit:
+        type: "float"
+        unit: "vCPU"
+        range: [0.25, 128.0]
+      memory_limit:
+        type: "float"
+        unit: "gigabytes"
+        range: [0.5, 512.0]
+      node_count:
+        type: "integer"
+        description: "Total vertices in architecture graph"
+        range: [2, 120]
+      edge_count:
+        type: "integer"
+        description: "Total directed communication edges in architecture graph"
+        range: [1, 300]
+
+  # Dataset C — Workload
+  # Dynamic operational traffic profile applied to the architecture.
+  dataset_c_workload:
+    primary_key: "workload_id"
+    fields:
+      workload_id:
+        type: "string"
+        description: "Unique workload profile identifier"
+      rps:
+        type: "float"
+        unit: "requests_per_second"
+        range: [1.0, 200000.0]
+      concurrency:
+        type: "integer"
+        range: [1, 50000]
+      read_write_ratio:
+        type: "float"
+        range: [0.0, 1.0]
+      data_size:
+        type: "float"
+        unit: "gigabytes"
+        range: [0.1, 50000.0]
+      request_size:
+        type: "float"
+        unit: "kilobytes"
+        range: [0.1, 10000.0]
+      workload_type:
+        type: "categorical"
+        allowed: ["oltp", "olap", "read_heavy", "write_heavy", "balanced", "streaming"]
+      traffic_pattern:
+        type: "categorical"
+        allowed: ["steady", "bursty", "diurnal", "exponential_spike", "gradual_ramp"]
+
+  # Dataset D — Performance Observations
+  # Measured or benchmarked system performance outcomes.
+  dataset_d_performance:
+    primary_key: "experiment_id"
+    foreign_keys:
+      - "architecture_id"
+      - "workload_id"
+    fields:
+      experiment_id:
+        type: "string"
+      architecture_id:
+        type: "string"
+      workload_id:
+        type: "string"
+      cpu:
+        type: "float"
+        unit: "percentage"
+        range: [0.0, 100.0]
+      memory:
+        type: "float"
+        unit: "megabytes"
+        range: [10.0, 262144.0]
+      p50:
+        type: "float"
+        unit: "milliseconds"
+        range: [0.1, 30000.0]
+      p90:
+        type: "float"
+        unit: "milliseconds"
+        range: [0.2, 45000.0]
+      p95:
+        type: "float"
+        unit: "milliseconds"
+        range: [0.5, 60000.0]
+      p99:
+        type: "float"
+        unit: "milliseconds"
+        range: [1.0, 90000.0]
+      throughput:
+        type: "float"
+        unit: "requests_per_second"
+        range: [0.0, 200000.0]
+      error_rate:
+        type: "float"
+        unit: "percentage"
+        range: [0.0, 100.0]
+      db_latency:
+        type: "float"
+        unit: "milliseconds"
+        range: [0.1, 10000.0]
+      cache_hit_rate:
+        type: "float"
+        range: [0.0, 1.0]
+      network_latency:
+        type: "float"
+        unit: "milliseconds"
+        range: [0.01, 1000.0]
+      scalability:
+        type: "float"
+        unit: "headroom_multiplier"
+        description: "Max sustained throughput scale factor before SLA violation"
+        range: [0.1, 100.0]
+
+  # Dataset E — Infrastructure Cost
+  # Monetary cost associated with running the architecture configuration.
+  dataset_e_cost:
+    foreign_keys:
+      - "architecture_id"
+    fields:
+      architecture_id:
+        type: "string"
+      cloud:
+        type: "categorical"
+      region:
+        type: "string"
+      instance_type:
+        type: "string"
+      instance_count:
+        type: "integer"
+      storage:
+        type: "float"
+        unit: "gigabytes"
+      network:
+        type: "float"
+        unit: "gigabytes_egress_per_month"
+      compute_cost:
+        type: "float"
+        unit: "usd_per_month"
+      database_cost:
+        type: "float"
+        unit: "usd_per_month"
+      cache_cost:
+        type: "float"
+        unit: "usd_per_month"
+      monthly_cost:
+        type: "float"
+        unit: "usd_per_month"
+
+# 2. Graph & Engineered Features
+# Extracted from NetworkX architecture representation and workload ratios.
+engineered_features:
+  graph_topology:
+    - name: "graph_depth"
+      formula: "Longest directed acyclic path from client entry point to terminal node"
+      type: "integer"
+    - name: "average_degree"
+      formula: "Total degree / node_count"
+      type: "float"
+    - name: "max_fan_in"
+      formula: "Max in-degree across all service nodes (bottleneck risk)"
+      type: "integer"
+    - name: "max_fan_out"
+      formula: "Max out-degree across all service nodes (dependency sprawl)"
+      type: "integer"
+    - name: "critical_path_length"
+      formula: "Sum of edge weights along critical dependency path"
+      type: "float"
+    - name: "architecture_complexity_score"
+      formula: "(node_count * 0.4) + (edge_count * 0.6) * (1 + (service_count / 10))"
+      type: "float"
+
+  workload_intensity_ratios:
+    - name: "rps_per_service"
+      formula: "workload.rps / max(architecture.service_count, 1)"
+      type: "float"
+    - name: "concurrency_per_replica"
+      formula: "workload.concurrency / max(architecture.replica_count, 1)"
+      type: "float"
+    - name: "data_per_request_ratio"
+      formula: "(workload.data_size * 1024 * 1024) / max(workload.rps, 1)"
+      type: "float"
+    - name: "cache_capacity_coverage"
+      formula: "if architecture.cache != 'none' then 1.0 else 0.0"
+      type: "float"
+
+# 3. ML Model Target Mapping
+model_targets:
+  model_1_latency:
+    target_columns: ["p50", "p95", "p99"]
+    primary_loss: "RMSE"
+    features_source: ["dataset_b_architecture", "dataset_c_workload", "engineered_features"]
+
+  model_2_throughput:
+    target_columns: ["throughput"]
+    primary_loss: "RMSE"
+    features_source: ["dataset_b_architecture", "dataset_c_workload", "engineered_features"]
+
+  model_3_resources:
+    target_columns: ["cpu", "memory"]
+    primary_loss: "MAE"
+    features_source: ["dataset_b_architecture", "dataset_c_workload", "engineered_features"]
+
+  model_4_cost:
+    target_columns: ["monthly_cost"]
+    primary_loss: "MAPE"
+    features_source: ["dataset_b_architecture", "dataset_e_cost"]
+
+  model_5_reliability:
+    target_columns: ["error_rate"]
+    primary_loss: "BCE_or_RMSE"
+    features_source: ["dataset_b_architecture", "dataset_c_workload", "engineered_features"]

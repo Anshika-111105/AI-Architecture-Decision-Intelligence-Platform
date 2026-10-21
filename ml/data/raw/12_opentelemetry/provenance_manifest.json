@@ -1,0 +1,16 @@
+{
+  "source_id": "src_12_opentelemetry",
+  "source_name": "OpenTelemetry Astronomy Shop Demo",
+  "evidence_type": "Type_C_Architecture_Specification",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://github.com/open-telemetry/opentelemetry-demo",
+  "license": "Apache-2.0",
+  "priority": "Medium",
+  "collection_timestamp": "2026-10-13T01:29:58.001479+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

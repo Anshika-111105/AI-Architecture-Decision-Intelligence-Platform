@@ -1,0 +1,16 @@
+{
+  "source_id": "src_13_online_boutique",
+  "source_name": "Google Cloud Online Boutique",
+  "evidence_type": "Type_C_Architecture_Specification",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://github.com/GoogleCloudPlatform/microservices-demo",
+  "license": "Apache-2.0",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:58.000387+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

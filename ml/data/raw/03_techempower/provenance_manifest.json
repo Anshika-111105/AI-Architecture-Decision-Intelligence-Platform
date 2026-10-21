@@ -1,0 +1,16 @@
+{
+  "source_id": "src_03_techempower",
+  "source_name": "TechEmpower FrameworkBenchmarks",
+  "evidence_type": "Type_B_Controlled_Benchmark",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://github.com/TechEmpower/FrameworkBenchmarks",
+  "license": "Apache-2.0",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:57.983782+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

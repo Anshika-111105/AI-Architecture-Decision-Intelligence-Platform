@@ -1,0 +1,16 @@
+{
+  "source_id": "src_06_technical_architectures",
+  "source_name": "Technical-Architectures-Large",
+  "evidence_type": "Type_C_Architecture_Specification",
+  "is_real": false,
+  "is_benchmark": false,
+  "is_simulated": false,
+  "is_synthetic": true,
+  "url": "https://huggingface.co/datasets/ajibawa-2023/Technical-Architectures-Large",
+  "license": "MIT",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:57.996866+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

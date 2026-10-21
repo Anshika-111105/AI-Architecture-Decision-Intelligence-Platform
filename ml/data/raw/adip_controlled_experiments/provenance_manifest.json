@@ -1,0 +1,16 @@
+{
+  "source_id": "src_14_adip_experiments",
+  "source_name": "ADIP Controlled Testbed Experiments",
+  "evidence_type": "Type_E_ADIP_Generated",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "",
+  "license": "Unknown",
+  "priority": "Essential",
+  "collection_timestamp": "2026-10-13T01:29:58.004345+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}
