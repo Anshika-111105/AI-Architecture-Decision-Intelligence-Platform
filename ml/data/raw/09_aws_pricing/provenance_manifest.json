@@ -1,0 +1,16 @@
+{
+  "source_id": "src_09_aws_pricing",
+  "source_name": "AWS Price List API & Cloud Pricing Models",
+  "evidence_type": "Type_B_Controlled_Benchmark",
+  "is_real": true,
+  "is_benchmark": false,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/Welcome.html",
+  "license": "AWS Customer Agreement",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:57.995208+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

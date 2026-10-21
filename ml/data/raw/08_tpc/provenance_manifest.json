@@ -1,0 +1,16 @@
+{
+  "source_id": "src_08_tpc",
+  "source_name": "TPC Benchmarks (TPC-C, TPC-H)",
+  "evidence_type": "Type_B_Controlled_Benchmark",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://www.tpc.org/information/benchmarks5.asp",
+  "license": "Public Benchmark Reports",
+  "priority": "Medium",
+  "collection_timestamp": "2026-10-13T01:29:57.994022+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

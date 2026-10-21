@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ADIP_Architecture_Schema",
+  "description": "Dataset B: Formal schema for candidate architecture configurations and graph topologies",
+  "type": "object",
+  "required": [
+    "architecture_id",
+    "architecture_pattern",
+    "service_count",
+    "database",
+    "cache",
+    "messaging",
+    "api_style",
+    "deployment",
+    "replica_count",
+    "node_count",
+    "edge_count"
+  ],
+  "properties": {
+    "architecture_id": {
+      "type": "string",
+      "description": "Unique identifier for candidate architecture"
+    },
+    "architecture_pattern": {
+      "type": "string",
+      "enum": ["monolith", "modular_monolith", "microservices", "event_driven", "serverless"]
+    },
+    "architecture_style": {
+      "type": "string",
+      "enum": ["layered", "hexagonal", "cqrs", "event_sourcing", "pipeline", "service_oriented"],
+      "default": "layered"
+    },
+    "service_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "database": {
+      "type": "string",
+      "enum": ["postgres", "mysql", "mongodb", "dynamodb", "cassandra", "redis_only", "none"]
+    },
+    "cache": {
+      "type": "string",
+      "enum": ["none", "redis", "memcached", "hazelcast"]
+    },
+    "messaging": {
+      "type": "string",
+      "enum": ["none", "kafka", "rabbitmq", "aws_sqs", "nats"]
+    },
+    "api_style": {
+      "type": "string",
+      "enum": ["rest", "graphql", "grpc", "websocket"]
+    },
+    "deployment": {
+      "type": "string",
+      "enum": ["docker_compose", "kubernetes", "aws_ecs", "aws_lambda", "bare_metal_vm"]
+    },
+    "cloud": {
+      "type": "string",
+      "enum": ["aws", "gcp", "azure", "on_premise"],
+      "default": "aws"
+    },
+    "replica_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 128
+    },
+    "cpu_limit": {
+      "type": "number",
+      "description": "Allocated vCPU",
+      "minimum": 0.25,
+      "default": 2.0
+    },
+    "memory_limit": {
+      "type": "number",
+      "description": "Allocated memory in GB",
+      "minimum": 0.5,
+      "default": 4.0
+    },
+    "node_count": {
+      "type": "integer",
+      "description": "Total nodes in architecture dependency graph",
+      "minimum": 1
+    },
+    "edge_count": {
+      "type": "integer",
+      "description": "Total directed edges in architecture dependency graph",
+      "minimum": 0
+    }
+  }
+}

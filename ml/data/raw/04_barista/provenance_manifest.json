@@ -1,0 +1,16 @@
+{
+  "source_id": "src_04_barista",
+  "source_name": "Barista Microservice Benchmarks",
+  "evidence_type": "Type_B_Controlled_Benchmark",
+  "is_real": false,
+  "is_benchmark": true,
+  "is_simulated": false,
+  "is_synthetic": false,
+  "url": "https://github.com/barista-benchmarks/barista",
+  "license": "MIT",
+  "priority": "High",
+  "collection_timestamp": "2026-10-13T01:29:57.991749+00:00",
+  "pipeline_author": "Anshika (AI/ML Lead)",
+  "pipeline_version": "1.0",
+  "status": "ready_for_ingestion"
+}

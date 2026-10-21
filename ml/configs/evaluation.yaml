@@ -1,0 +1,196 @@
+version: "1.0"
+project: "ADIP"
+module: "Model Evaluation & Acceptance Governance"
+author: "Ananya (ML Optimization & Model Lifecycle Engineer)"
+date: "October 2026"
+
+# ==============================================================================
+# 1. Standard Metric Definitions & Formulations
+# ==============================================================================
+metrics_dictionary:
+  r2_score:
+    name: "Coefficient of Determination (R²)"
+    formula: "1 - (SS_res / SS_tot)"
+    interpretation: "Proportion of target variance explained by architecture and workload features."
+    higher_is_better: true
+    min_value: 0.0
+    max_value: 1.0
+
+  rmse:
+    name: "Root Mean Squared Error"
+    formula: "sqrt(mean((y_true - y_pred)^2))"
+    interpretation: "Penalizes large performance prediction mistakes heavily."
+    higher_is_better: false
+    min_value: 0.0
+
+  mae:
+    name: "Mean Absolute Error"
+    formula: "mean(abs(y_true - y_pred))"
+    interpretation: "Average magnitude of architectural prediction residuals."
+    higher_is_better: false
+    min_value: 0.0
+
+  mape:
+    name: "Mean Absolute Percentage Error"
+    formula: "mean(abs((y_true - y_pred) / y_true)) * 100"
+    interpretation: "Relative percentage prediction error. Caution: sensitive when y_true approaches 0."
+    higher_is_better: false
+    min_value: 0.0
+    max_value: 100.0
+
+  max_error:
+    name: "Maximum Residual Error"
+    formula: "max(abs(y_true - y_pred))"
+    interpretation: "Worst-case deviation across test architectures."
+    higher_is_better: false
+
+
+# ==============================================================================
+# 2. Per-Model Target Acceptance Thresholds
+# ==============================================================================
+model_acceptance_thresholds:
+
+  # ----------------------------------------------------------------------------
+  # Model 1 — Latency Surrogate Model
+  # Inputs: Architecture Graph + Workload (RPS, Concurrency) + Resources
+  # Target: p95 (primary), p50, p99 (ms)
+  # ----------------------------------------------------------------------------
+  latency_model:
+    primary_target: "p95"
+    secondary_targets: ["p50", "p99"]
+    target_unit: "milliseconds (ms)"
+    thresholds:
+      r2_min: 0.85
+      r2_target: 0.90
+      mape_max_pct: 18.0
+      mae_max: 25.0
+      rmse_max: 40.0
+      max_error_max: 120.0
+    invariants:
+      monotonicity_check: true
+      rule: "p50_pred <= p95_pred <= p99_pred"
+      strictly_positive: true
+      min_value: 0.1
+
+  # ----------------------------------------------------------------------------
+  # Model 2 — Throughput Surrogate Model
+  # Inputs: Architecture Topology + Deployment + Workload
+  # Target: throughput (requests / sec)
+  # ----------------------------------------------------------------------------
+  throughput_model:
+    primary_target: "throughput"
+    secondary_targets: []
+    target_unit: "requests per second (RPS)"
+    thresholds:
+      r2_min: 0.88
+      r2_target: 0.92
+      mape_max_pct: 12.0
+      mae_max: 150.0
+      rmse_max: 250.0
+    invariants:
+      strictly_positive: true
+      min_value: 0.0
+      capacity_saturation_guard: true
+
+  # ----------------------------------------------------------------------------
+  # Model 3 — Resource Utilization Surrogate Model
+  # Inputs: Service Count + Replicas + Concurrency + RPS
+  # Targets: cpu_utilization_ratio, memory_utilization_ratio
+  # ----------------------------------------------------------------------------
+  resource_model:
+    primary_target: "cpu_utilization_ratio"
+    secondary_targets: ["memory_utilization_ratio"]
+    target_unit: "ratio [0.0 - 1.0]"
+    thresholds:
+      r2_min: 0.80
+      r2_target: 0.86
+      mape_max_pct: 15.0
+      mae_max: 0.08
+      rmse_max: 0.12
+    invariants:
+      bounded_interval: [0.0, 1.0]
+      strictly_positive: true
+
+  # ----------------------------------------------------------------------------
+  # Model 4 — Cloud Infrastructure Cost Surrogate Model
+  # Inputs: Architecture Spec + Replicas + Instance Sizing + Cloud Provider
+  # Target: total_monthly_cost (USD / month)
+  # ----------------------------------------------------------------------------
+  cost_model:
+    primary_target: "total_monthly_cost"
+    secondary_targets: ["compute_cost", "database_cost", "cache_cost"]
+    target_unit: "USD per month ($)"
+    thresholds:
+      r2_min: 0.90
+      r2_target: 0.95
+      mape_max_pct: 15.0
+      mae_max: 75.0
+      rmse_max: 120.0
+    invariants:
+      strictly_positive: true
+      min_value: 5.0
+
+  # ----------------------------------------------------------------------------
+  # Model 5 — Reliability & Availability Surrogate Model
+  # Inputs: Service Topology + Redundancy + Network Hops + Workload Stress
+  # Targets: error_rate (ratio [0.0 - 1.0]), availability_score
+  # ----------------------------------------------------------------------------
+  reliability_model:
+    primary_target: "error_rate"
+    secondary_targets: ["availability_score"]
+    target_unit: "ratio [0.0 - 1.0]"
+    thresholds:
+      r2_min: 0.80
+      r2_target: 0.85
+      mape_max_pct: 20.0
+      mae_max: 0.02
+      rmse_max: 0.04
+    invariants:
+      bounded_interval: [0.0, 1.0]
+
+
+# ==============================================================================
+# 3. Data Slice & Provenance Evaluation
+# Principle: Do not average away performance across disparate evidence types.
+# ==============================================================================
+slice_evaluation:
+  evidence_slices:
+    - slice_name: "type_a_production_traces"
+      filter: "evidence_type == 'Type_A_Production_Trace'"
+      r2_min_multiplier: 0.90
+
+    - slice_name: "type_b_controlled_benchmarks"
+      filter: "evidence_type == 'Type_B_Controlled_Benchmark'"
+      r2_min_multiplier: 1.00
+
+    - slice_name: "type_e_simulated_workloads"
+      filter: "evidence_type == 'Type_E_Simulation'"
+      r2_min_multiplier: 0.95
+
+  workload_slices:
+    - slice_name: "low_traffic_under_1k_rps"
+      filter: "rps < 1000"
+    - slice_name: "medium_traffic_1k_to_10k_rps"
+      filter: "rps >= 1000 and rps <= 10000"
+    - slice_name: "high_concurrency_stress"
+      filter: "concurrency >= 500"
+
+
+# ==============================================================================
+# 4. Generalization & Overfitting Gates
+# ==============================================================================
+generalization_gates:
+  max_train_test_r2_gap: 0.12
+  max_group_kfold_std_dev: 0.08
+  require_architecture_group_isolation: true
+
+
+# ==============================================================================
+# 5. Model Promotion & Release Criteria
+# ==============================================================================
+promotion_criteria:
+  all_thresholds_passed: true
+  zero_leakage_certified: true
+  invariants_zero_violations: true
+  dataset_version_tagged: true
+  registered_in_mlflow: true
