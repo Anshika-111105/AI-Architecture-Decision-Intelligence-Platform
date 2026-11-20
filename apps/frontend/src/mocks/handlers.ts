@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw'
 import type { PredictionResult } from '../types'
+import type { RequirementAnalysisResponse } from '../types/analysis'
 
 // MOCK DATA: shaped like packages/shared-schemas/prediction.schema.json.
 // These numbers are invented for UI development only. They are NOT predictions
@@ -30,7 +31,28 @@ const mockPrediction = (architecture_id: string, scale: number): PredictionResul
   },
 })
 
+// MOCK: always returns the same parse, whatever text was sent. The real
+// extractor lives in ml/src/requirements/extractor.py.
+const mockAnalysis: RequirementAnalysisResponse = {
+  requirements: {
+    domain: 'ecommerce',
+    users: 100000,
+    concurrency: 5000,
+    rps: 500,
+    peak_rps: 2000,
+    latency_sla: 200,
+    budget: 5000,
+  },
+  missing_fields: ['data_size', 'read_write_ratio', 'availability_sla'],
+  assumptions: ['MOCK RESPONSE: values are fixed example data, not parsed from your text.'],
+  is_complete: false,
+}
+
 export const handlers = [
+  http.post('/api/v1/requirements/analyze', () => HttpResponse.json(mockAnalysis)),
+  http.post('/api/v1/requirements', async ({ request }) =>
+    HttpResponse.json(await request.json(), { status: 201 }),
+  ),
   http.get('/api/v1/predictions', () =>
     HttpResponse.json([
       mockPrediction('monolith', 1),

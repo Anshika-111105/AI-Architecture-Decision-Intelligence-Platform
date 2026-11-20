@@ -13,19 +13,22 @@ export const DOMAINS = [
   'saas',
 ] as const
 
+// An empty number input arrives as undefined; this gives a readable message instead of zod's default.
+const num = () => z.number({ error: 'Enter a number' })
+
 export const requirementsSchema = z
   .object({
     project_id: z.string().min(1, 'Project id is required'),
     domain: z.enum(DOMAINS),
-    users: z.number().int().min(1),
-    concurrency: z.number().int().min(1),
-    rps: z.number().min(0.1),
-    peak_rps: z.number().min(0.1),
-    data_size: z.number().min(0.01, 'Data size is in GB'),
-    read_write_ratio: z.number().min(0).max(1),
-    latency_sla: z.number().min(1, 'Latency SLA is in ms'),
-    availability_sla: z.number().min(90).max(100),
-    budget: z.number().min(10, 'Monthly budget in USD'),
+    users: num().int().min(1),
+    concurrency: num().int().min(1),
+    rps: num().min(0.1),
+    peak_rps: num().min(0.1),
+    data_size: num().min(0.01, 'Data size is in GB'),
+    read_write_ratio: num().min(0).max(1),
+    latency_sla: num().min(1, 'Latency SLA is in ms'),
+    availability_sla: num().min(90).max(100),
+    budget: num().min(10, 'Monthly budget in USD'),
     traffic_growth: z.number().min(0).optional(),
     team_size: z.number().int().min(1).optional(),
   })
