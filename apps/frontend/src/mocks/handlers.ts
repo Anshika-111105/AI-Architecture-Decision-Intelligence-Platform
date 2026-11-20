@@ -53,6 +53,9 @@ export const handlers = [
   http.post('/api/v1/requirements', async ({ request }) =>
     HttpResponse.json(await request.json(), { status: 201 }),
   ),
+  http.post('/api/v1/architectures', async ({ request }) =>
+    HttpResponse.json(await request.json(), { status: 201 }),
+  ),
   http.get('/api/v1/predictions', () =>
     HttpResponse.json([
       mockPrediction('monolith', 1),

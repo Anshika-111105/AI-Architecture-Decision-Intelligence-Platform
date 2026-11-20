@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard'
 import PredictionDashboard from './pages/PredictionDashboard'
 import ProjectCreation from './pages/ProjectCreation'
 import RequirementInput from './pages/RequirementInput'
+import ArchitectureBuilder from './pages/ArchitectureBuilder'
 import PlaceholderPage from './components/PlaceholderPage'
 
 export interface AppRoute {
@@ -20,7 +21,7 @@ export const appRoutes: AppRoute[] = [
   { path: '/', label: 'Dashboard', element: <Dashboard /> },
   { path: '/projects/new', label: 'Project Creation', element: <ProjectCreation /> },
   { path: '/requirements', label: 'Requirement Input', element: <RequirementInput /> },
-  { path: '/architecture-builder', label: 'Architecture Builder', element: todo('Architecture Builder', 'React Flow canvas that exports an architecture graph.') },
+  { path: '/architecture-builder', label: 'Architecture Builder', element: <ArchitectureBuilder /> },
   { path: '/compare', label: 'Architecture Comparison', element: todo('Architecture Comparison', 'Side-by-side metrics and radar chart.') },
   { path: '/simulation', label: 'Simulation Configuration', element: todo('Simulation Configuration', 'Define the workload and run the simulation.') },
   { path: '/predictions', label: 'Prediction Dashboard', element: <PredictionDashboard /> },
