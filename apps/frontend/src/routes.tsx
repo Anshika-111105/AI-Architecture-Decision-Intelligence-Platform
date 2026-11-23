@@ -4,6 +4,7 @@ import PredictionDashboard from './pages/PredictionDashboard'
 import ProjectCreation from './pages/ProjectCreation'
 import RequirementInput from './pages/RequirementInput'
 import ArchitectureBuilder from './pages/ArchitectureBuilder'
+import ArchitectureComparison from './pages/ArchitectureComparison'
 import PlaceholderPage from './components/PlaceholderPage'
 
 export interface AppRoute {
@@ -22,7 +23,7 @@ export const appRoutes: AppRoute[] = [
   { path: '/projects/new', label: 'Project Creation', element: <ProjectCreation /> },
   { path: '/requirements', label: 'Requirement Input', element: <RequirementInput /> },
   { path: '/architecture-builder', label: 'Architecture Builder', element: <ArchitectureBuilder /> },
-  { path: '/compare', label: 'Architecture Comparison', element: todo('Architecture Comparison', 'Side-by-side metrics and radar chart.') },
+  { path: '/compare', label: 'Architecture Comparison', element: <ArchitectureComparison /> },
   { path: '/simulation', label: 'Simulation Configuration', element: todo('Simulation Configuration', 'Define the workload and run the simulation.') },
   { path: '/predictions', label: 'Prediction Dashboard', element: <PredictionDashboard /> },
   { path: '/what-if', label: 'What-If Analysis', element: todo('What-If Analysis', 'Sliders for RPS, replicas, cache and more, with recalculated metrics.') },

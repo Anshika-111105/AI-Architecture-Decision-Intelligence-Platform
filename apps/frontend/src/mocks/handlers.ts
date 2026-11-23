@@ -5,21 +5,50 @@ import type { RequirementAnalysisResponse } from '../types/analysis'
 // MOCK DATA: shaped like packages/shared-schemas/prediction.schema.json.
 // These numbers are invented for UI development only. They are NOT predictions
 // from the trained model and must never be shown as real results.
-const mockPrediction = (architecture_id: string, scale: number): PredictionResult => ({
-  architecture_id,
+//
+// The three profiles are deliberately different so the charts show real trade-offs:
+// the monolith is cheap but slower, microservices are fast and scalable but cost more.
+const MOCK_LATENCY_SLA_MS = 150
+const MOCK_BUDGET_USD = 5000
+
+interface MockProfile {
+  id: string
+  p50: number
+  p90: number
+  p95: number
+  p99: number
+  rps: number
+  cpu: number
+  mem: number
+  cost: number
+  err: number
+  avail: number
+  maxRps: number
+  headroom: number
+}
+
+const PROFILES: MockProfile[] = [
+  { id: 'monolith', p50: 55, p90: 120, p95: 160, p99: 260, rps: 3200, cpu: 62, mem: 1800, cost: 1800, err: 0.3, avail: 99.9, maxRps: 5000, headroom: 1.4 },
+  { id: 'modular_monolith', p50: 45, p90: 100, p95: 135, p99: 220, rps: 4300, cpu: 55, mem: 2300, cost: 2600, err: 0.22, avail: 99.93, maxRps: 7500, headroom: 1.8 },
+  { id: 'microservices', p50: 38, p90: 85, p95: 115, p99: 190, rps: 6200, cpu: 48, mem: 4100, cost: 5400, err: 0.15, avail: 99.97, maxRps: 14000, headroom: 2.8 },
+]
+
+// SLA flags and margins are COMPUTED from the numbers above, so they can never contradict each other.
+const toPrediction = (m: MockProfile): PredictionResult => ({
+  architecture_id: m.id,
   predictions: {
-    latency: { p50_ms: 40 * scale, p90_ms: 90 * scale, p95_ms: 120 * scale, p99_ms: 210 * scale },
-    throughput: { predicted_rps: 4200 / scale },
-    resources: { cpu_utilization_pct: Math.min(95, 45 * scale), memory_utilization_mb: 2048 * scale },
-    cost: { estimated_monthly_usd: 3200 * scale },
-    reliability: { estimated_error_rate_pct: 0.2 * scale, availability_score: 99.95 },
-    scalability: { max_supported_rps: 9000 / scale, scalability_headroom_multiplier: 2 / scale },
+    latency: { p50_ms: m.p50, p90_ms: m.p90, p95_ms: m.p95, p99_ms: m.p99 },
+    throughput: { predicted_rps: m.rps },
+    resources: { cpu_utilization_pct: m.cpu, memory_utilization_mb: m.mem },
+    cost: { estimated_monthly_usd: m.cost },
+    reliability: { estimated_error_rate_pct: m.err, availability_score: m.avail },
+    scalability: { max_supported_rps: m.maxRps, scalability_headroom_multiplier: m.headroom },
   },
   sla_compliance: {
-    meets_latency_sla: scale <= 1.5,
-    meets_budget_sla: scale <= 1.2,
-    latency_margin_ms: 200 - 210 * scale,
-    budget_margin_usd: 5000 - 3200 * scale,
+    meets_latency_sla: m.p95 <= MOCK_LATENCY_SLA_MS,
+    meets_budget_sla: m.cost <= MOCK_BUDGET_USD,
+    latency_margin_ms: MOCK_LATENCY_SLA_MS - m.p95,
+    budget_margin_usd: MOCK_BUDGET_USD - m.cost,
   },
   explainability: {
     top_contributing_features: [
@@ -30,6 +59,8 @@ const mockPrediction = (architecture_id: string, scale: number): PredictionResul
     summary: 'Mock explanation for UI development.',
   },
 })
+
+export const MOCK_PREDICTIONS: PredictionResult[] = PROFILES.map(toPrediction)
 
 // MOCK: always returns the same parse, whatever text was sent. The real
 // extractor lives in ml/src/requirements/extractor.py.
@@ -56,11 +87,5 @@ export const handlers = [
   http.post('/api/v1/architectures', async ({ request }) =>
     HttpResponse.json(await request.json(), { status: 201 }),
   ),
-  http.get('/api/v1/predictions', () =>
-    HttpResponse.json([
-      mockPrediction('monolith', 1),
-      mockPrediction('modular_monolith', 1.1),
-      mockPrediction('microservices', 1.4),
-    ]),
-  ),
+  http.get('/api/v1/predictions', () => HttpResponse.json(MOCK_PREDICTIONS)),
 ]

@@ -41,4 +41,4 @@ export const requirementsSchema = z
     path: ['concurrency'],
   })
 
-export type RequirementsForm = z.infer<typeof requirementsSchema>
+export type RequirementsForm = z.infer<typeof requirementsSchema>  
