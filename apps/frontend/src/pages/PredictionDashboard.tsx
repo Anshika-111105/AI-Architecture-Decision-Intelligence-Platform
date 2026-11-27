@@ -1,48 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Bar, BarChart, CartesianGrid, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts'
 import ChartCard from '../components/ChartCard'
+import GroupedBars, { type Series } from '../components/GroupedBars'
 import MetricsTable from '../features/predictions/MetricsTable'
 import { fmtMs, fmtPct, fmtRps, fmtSigned, fmtUsd } from '../features/predictions/metrics'
 import { usePredictions } from '../features/predictions/usePredictions'
-
-interface Series {
-  key: string
-  name: string
-  color: string
-}
-
-// One reusable bar chart: rows are one object per architecture, series pick the columns to draw.
-function GroupedBars({
-  rows,
-  series,
-  format,
-  axisFormat = format,
-}: {
-  rows: Record<string, string | number | undefined>[]
-  series: Series[]
-  format: (v: number) => string
-  /** Shorter text for the y-axis ticks (the tooltip keeps the full `format`). */
-  axisFormat?: (v: number) => string
-}) {
-  return (
-    <ResponsiveContainer>
-      <BarChart data={rows}>
-        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-        {/* interval={0}: draw every architecture name; Recharts otherwise hides labels that might overlap. */}
-        <XAxis dataKey="architecture" interval={0} tick={{ fontSize: 12 }} />
-        <YAxis tickFormatter={axisFormat} width={64} />
-        <Tooltip formatter={(v) => (typeof v === 'number' ? format(v) : String(v))} />
-        {/* Default legend text takes the series colour (unreadable for light ones) and is sorted by name. */}
-        {series.length > 1 && (
-          <Legend itemSorter={null} formatter={(name) => <span style={{ color: '#334155' }}>{name}</span>} />
-        )}
-        {series.map((s) => (
-          <Bar key={s.key} dataKey={s.key} name={s.name} fill={s.color} radius={[3, 3, 0, 0]} />
-        ))}
-      </BarChart>
-    </ResponsiveContainer>
-  )
-}
 
 // Ordered percentiles use one hue getting darker, so "higher percentile" reads as "more intense".
 const PERCENTILE_SERIES: Series[] = [

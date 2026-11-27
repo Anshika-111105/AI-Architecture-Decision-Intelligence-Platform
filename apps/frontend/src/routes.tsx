@@ -5,6 +5,9 @@ import ProjectCreation from './pages/ProjectCreation'
 import RequirementInput from './pages/RequirementInput'
 import ArchitectureBuilder from './pages/ArchitectureBuilder'
 import ArchitectureComparison from './pages/ArchitectureComparison'
+import RecommendationView from './pages/RecommendationView'
+import ShapExplanation from './pages/ShapExplanation'
+import WhatIfAnalysis from './pages/WhatIfAnalysis'
 import PlaceholderPage from './components/PlaceholderPage'
 
 export interface AppRoute {
@@ -26,9 +29,9 @@ export const appRoutes: AppRoute[] = [
   { path: '/compare', label: 'Architecture Comparison', element: <ArchitectureComparison /> },
   { path: '/simulation', label: 'Simulation Configuration', element: todo('Simulation Configuration', 'Define the workload and run the simulation.') },
   { path: '/predictions', label: 'Prediction Dashboard', element: <PredictionDashboard /> },
-  { path: '/what-if', label: 'What-If Analysis', element: todo('What-If Analysis', 'Sliders for RPS, replicas, cache and more, with recalculated metrics.') },
-  { path: '/recommendations', label: 'Recommendation View', element: todo('Recommendation View', 'Pareto frontier and TOPSIS ranking with adjustable weights.') },
-  { path: '/explanations', label: 'SHAP Explanation', element: todo('SHAP Explanation', 'Feature contributions behind each prediction.') },
+  { path: '/what-if', label: 'What-If Analysis', element: <WhatIfAnalysis /> },
+  { path: '/recommendations', label: 'Recommendation View', element: <RecommendationView /> },
+  { path: '/explanations', label: 'SHAP Explanation', element: <ShapExplanation /> },
   { path: '/advisor', label: 'RAG / LLM Advisor', element: todo('RAG / LLM Advisor', 'Evidence-grounded explanation with citations.') },
   { path: '/experiments', label: 'Experiment History', element: todo('Experiment History', 'Past experiments and runs.') },
   { path: '/validation', label: 'Model / Validation Results', element: todo('Model / Validation Results', 'Model quality and prediction-vs-observation checks.') },

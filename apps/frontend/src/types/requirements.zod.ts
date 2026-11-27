@@ -35,7 +35,7 @@ export const requirementsSchema = z
   .refine((r) => r.peak_rps >= r.rps, {
     message: 'Peak RPS cannot be lower than baseline RPS',
     path: ['peak_rps'],
-  })
+  })    
   .refine((r) => r.concurrency <= r.users, {
     message: 'Concurrency cannot exceed total users',
     path: ['concurrency'],
